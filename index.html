@@ -162,123 +162,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/07/01-%E6%80%BB%E8%A7%88%EF%BC%8C%E7%BA%BF%E4%BB%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="dmmaze">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ephemerallib">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/07/01-%E6%80%BB%E8%A7%88%EF%BC%8C%E7%BA%BF%E4%BB%A3/" class="post-title-link" itemprop="url">01-总览，线代</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2021-10-07 18:58:33 / Modified: 22:02:23" itemprop="dateCreated datePublished" datetime="2021-10-07T18:58:33+08:00">2021-10-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/games101notes/" itemprop="url" rel="index"><span itemprop="name">games101notes</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Overview-of-CG"><a href="#Overview-of-CG" class="headerlink" title="Overview of CG"></a>Overview of CG</h1><p>The use of computers to synthesize and manipulate visual infomations.  </p>
-<h2 id="Course-Topics"><a href="#Course-Topics" class="headerlink" title="Course Topics"></a>Course Topics</h2><ul>
-<li>Rasterization<br>Project <strong>geometry primitives</strong>(几何基元/几何图元，如3D三角形/多边形) onto screen.  </li>
-<li>Curves and Meshes<br>How to represent geometry in CG.  </li>
-<li><p>Ray Tracing  </p>
-</li>
-<li><p>Animatino / Simulation</p>
-</li>
-</ul>
-<h2 id="CG和CV区别"><a href="#CG和CV区别" class="headerlink" title="CG和CV区别"></a>CG和CV区别</h2><ul>
-<li>CV涉及对图像内容的推断和对图像本身的处理，可看成从图像到模型，从图像到图像的过程    </li>
-<li>CG主要是建模和仿真，可看成从模型到图像，从模型到模型的过程</li>
-</ul>
-<h1 id="Review-of-Linear-Algebra"><a href="#Review-of-Linear-Algebra" class="headerlink" title="Review of Linear Algebra"></a>Review of Linear Algebra</h1><h2 id="Vectors"><a href="#Vectors" class="headerlink" title="Vectors"></a>Vectors</h2><ul>
-<li>usually written as $\vec{a}$ or $\mathbf{a}$, or start and end point $\vec{AB} = B-A$</li>
-<li>有方向和长度，无绝对起始点  <h3 id="向量规范化-Normalization"><a href="#向量规范化-Normalization" class="headerlink" title="向量规范化-Normalization"></a>向量规范化-Normalization</h3>向量长度写作$|\vec{a}|$<br>规范化既将原向量缩放为长度为1的<strong>单位向量</strong>$\hat{a}=\vec{a}/|\vec{a}|$，结果可用来表示方向  </li>
-</ul>
-<h3 id="点乘与叉乘"><a href="#点乘与叉乘" class="headerlink" title="点乘与叉乘"></a>点乘与叉乘</h3><p><strong>点乘</strong>就是对应元素相乘再求和</p>
-<script type="math/tex; mode=display">
-\vec{a}\cdot\vec{b} = \begin{pmatrix}x_a \\ y_a \end{pmatrix} \cdot \begin{pmatrix}x_b \\ y_b \end{pmatrix} = x_ax_b + y_ay_b = \cos{\theta_{ab}}\|\vec{a}\|\|\vec{b}\|</script><ul>
-<li>笛卡尔坐标系下的点乘结果可以看成一个向量在另一个向量上的投影长度。</li>
-<li>根据点乘结果可以判断两方向的近似程度，根据正负号判断方向是否相反  </li>
-</ul>
-<p><strong>叉乘</strong>结果是一个与相乘向量正交的向量，方向根据选取坐标系而定，本课程默认右手系，二维直角系下$\vec{a}\times\vec{b}$，$\vec{a}$到$\vec{b}$为逆时针时方向朝外，为正否则朝内，为负  </p>
-<ul>
-<li>$\vec{a} \times \vec{b} = -\vec{b} \times \vec{a}$  </li>
-<li>可以写成矩阵乘向量的形式<script type="math/tex; mode=display">
-\vec{a} \times \vec{b} = Ab = 
-\begin{pmatrix}0&-z_a&y_a \\
-z_a & 0 & -x_a \\
--y_a & x_a & 0
-\end{pmatrix}
-\begin{pmatrix}
-x_b \\ y_b \\ z_b
-\end{pmatrix}</script></li>
-<li>根据叉乘结果正负可以判断：  <ol>
-<li>向量左右</li>
-<li>判断点在多边形内外: 首尾相接向量成的多边形，一点$P$如与所有向量叉乘结果符号一致，则该点在多边形内部，否则在外部  </li>
-</ol>
-</li>
-</ul>
-<h2 id="矩阵乘法"><a href="#矩阵乘法" class="headerlink" title="矩阵乘法"></a>矩阵乘法</h2><ul>
-<li>满足结合律，不满足交换律  </li>
-<li>点乘叉乘都可以写成系数矩阵乘向量的形式，叉乘见上文，点乘:  <script type="math/tex; mode=display">
-\mathbf{a} \cdot \mathbf{b} = \mathbf{a}^T\mathbf{b}</script></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/07/02-04-%E7%BA%BF%E4%BB%A3%E5%9F%BA%E7%A1%80%EF%BC%8C%E5%8F%98%E6%8D%A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -304,7 +187,7 @@ x_b \\ y_b \\ z_b
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-10-07 18:58:33 / Modified: 22:00:05" itemprop="dateCreated datePublished" datetime="2021-10-07T18:58:33+08:00">2021-10-07</time>
+              <time title="Created: 2021-10-07 18:59:33 / Modified: 22:04:01" itemprop="dateCreated datePublished" datetime="2021-10-07T18:59:33+08:00">2021-10-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -445,6 +328,123 @@ fA+B=f^2 \\
 联立两式得  \\
 A=n+f \\
 B = -nf</script>对于中点$\begin{pmatrix}<br>  0 \\ 0 \\ \frac{f+n}{2} \\ 1<br>\end{pmatrix}$，变换后为$\begin{pmatrix}0 \\ 0 \\ \frac{f^2+n^2}{2} \\ \frac{f+n}{2}\end{pmatrix}$可知$z/w$变大了，实际变近了。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/07/01-%E6%80%BB%E8%A7%88%EF%BC%8C%E7%BA%BF%E4%BB%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="dmmaze">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ephemerallib">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/07/01-%E6%80%BB%E8%A7%88%EF%BC%8C%E7%BA%BF%E4%BB%A3/" class="post-title-link" itemprop="url">01-总览，线代</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-10-07 18:58:33 / Modified: 22:02:23" itemprop="dateCreated datePublished" datetime="2021-10-07T18:58:33+08:00">2021-10-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/games101notes/" itemprop="url" rel="index"><span itemprop="name">games101notes</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Overview-of-CG"><a href="#Overview-of-CG" class="headerlink" title="Overview of CG"></a>Overview of CG</h1><p>The use of computers to synthesize and manipulate visual infomations.  </p>
+<h2 id="Course-Topics"><a href="#Course-Topics" class="headerlink" title="Course Topics"></a>Course Topics</h2><ul>
+<li>Rasterization<br>Project <strong>geometry primitives</strong>(几何基元/几何图元，如3D三角形/多边形) onto screen.  </li>
+<li>Curves and Meshes<br>How to represent geometry in CG.  </li>
+<li><p>Ray Tracing  </p>
+</li>
+<li><p>Animatino / Simulation</p>
+</li>
+</ul>
+<h2 id="CG和CV区别"><a href="#CG和CV区别" class="headerlink" title="CG和CV区别"></a>CG和CV区别</h2><ul>
+<li>CV涉及对图像内容的推断和对图像本身的处理，可看成从图像到模型，从图像到图像的过程    </li>
+<li>CG主要是建模和仿真，可看成从模型到图像，从模型到模型的过程</li>
+</ul>
+<h1 id="Review-of-Linear-Algebra"><a href="#Review-of-Linear-Algebra" class="headerlink" title="Review of Linear Algebra"></a>Review of Linear Algebra</h1><h2 id="Vectors"><a href="#Vectors" class="headerlink" title="Vectors"></a>Vectors</h2><ul>
+<li>usually written as $\vec{a}$ or $\mathbf{a}$, or start and end point $\vec{AB} = B-A$</li>
+<li>有方向和长度，无绝对起始点  <h3 id="向量规范化-Normalization"><a href="#向量规范化-Normalization" class="headerlink" title="向量规范化-Normalization"></a>向量规范化-Normalization</h3>向量长度写作$|\vec{a}|$<br>规范化既将原向量缩放为长度为1的<strong>单位向量</strong>$\hat{a}=\vec{a}/|\vec{a}|$，结果可用来表示方向  </li>
+</ul>
+<h3 id="点乘与叉乘"><a href="#点乘与叉乘" class="headerlink" title="点乘与叉乘"></a>点乘与叉乘</h3><p><strong>点乘</strong>就是对应元素相乘再求和</p>
+<script type="math/tex; mode=display">
+\vec{a}\cdot\vec{b} = \begin{pmatrix}x_a \\ y_a \end{pmatrix} \cdot \begin{pmatrix}x_b \\ y_b \end{pmatrix} = x_ax_b + y_ay_b = \cos{\theta_{ab}}\|\vec{a}\|\|\vec{b}\|</script><ul>
+<li>笛卡尔坐标系下的点乘结果可以看成一个向量在另一个向量上的投影长度。</li>
+<li>根据点乘结果可以判断两方向的近似程度，根据正负号判断方向是否相反  </li>
+</ul>
+<p><strong>叉乘</strong>结果是一个与相乘向量正交的向量，方向根据选取坐标系而定，本课程默认右手系，二维直角系下$\vec{a}\times\vec{b}$，$\vec{a}$到$\vec{b}$为逆时针时方向朝外，为正否则朝内，为负  </p>
+<ul>
+<li>$\vec{a} \times \vec{b} = -\vec{b} \times \vec{a}$  </li>
+<li>可以写成矩阵乘向量的形式<script type="math/tex; mode=display">
+\vec{a} \times \vec{b} = Ab = 
+\begin{pmatrix}0&-z_a&y_a \\
+z_a & 0 & -x_a \\
+-y_a & x_a & 0
+\end{pmatrix}
+\begin{pmatrix}
+x_b \\ y_b \\ z_b
+\end{pmatrix}</script></li>
+<li>根据叉乘结果正负可以判断：  <ol>
+<li>向量左右</li>
+<li>判断点在多边形内外: 首尾相接向量成的多边形，一点$P$如与所有向量叉乘结果符号一致，则该点在多边形内部，否则在外部  </li>
+</ol>
+</li>
+</ul>
+<h2 id="矩阵乘法"><a href="#矩阵乘法" class="headerlink" title="矩阵乘法"></a>矩阵乘法</h2><ul>
+<li>满足结合律，不满足交换律  </li>
+<li>点乘叉乘都可以写成系数矩阵乘向量的形式，叉乘见上文，点乘:  <script type="math/tex; mode=display">
+\mathbf{a} \cdot \mathbf{b} = \mathbf{a}^T\mathbf{b}</script></li>
 </ul>
 
       
