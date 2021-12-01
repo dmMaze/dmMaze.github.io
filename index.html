@@ -162,6 +162,277 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="dmmaze">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ephemerallib">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/" class="post-title-link" itemprop="url">图像处理C3-图像增强</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-12-01 18:27:13 / Modified: 18:48:39" itemprop="dateCreated datePublished" datetime="2021-12-01T18:27:13+08:00">2021-12-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">图像处理</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>空间域<em>spatial domain</em>指的就是图像平面本身，本节介绍直接对其像素点的处理方法。</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><h2 id="亮度变换和空间滤波基础"><a href="#亮度变换和空间滤波基础" class="headerlink" title="亮度变换和空间滤波基础"></a>亮度变换和空间滤波基础</h2><p>空间域操作的基础表达式：</p>
+<script type="math/tex; mode=display">
+g(x,y) = T(f(x,y))</script><p>$f,g$是输入输出图像，$T$是定义在$(x, y)$领域上的操作符。如果$T$操作的领域只有一个点$(x,y)$，$T$就是一个亮度变换函数<em>intensity transformation(<u>就是个映射函数</u>)</em>，用$r, s$表示输入输出亮度值：</p>
+<script type="math/tex; mode=display">
+s = T(r)</script><p>例子是阈值分割，将高于亮度阈值的像素点置为255否则置零，得到一张二值化非黑即白的图片。</p>
+<h1 id="一些基础亮度变换函数"><a href="#一些基础亮度变换函数" class="headerlink" title="一些基础亮度变换函数"></a>一些基础亮度变换函数</h1><p>因为处理的是离散亮度点，因此可以将亮度变换函数用一个映射表表示。</p>
+<p>下图中的曲线都被放缩到了同一范围内，只代表曲线形状，不能表示它们间的相对大小。</p>
+<p><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_1.jpg"></p>
+<h2 id="对数变换"><a href="#对数变换" class="headerlink" title="对数变换"></a>对数变换</h2><script type="math/tex; mode=display">
+s = c\log(1+r)</script><p>由上图对数曲线可知，亮度较小的输入映射后被铺到了更大的数值范围，较大的亮度输入映射后的范围被“压缩”了。指数变换<em>Inverse log</em>的特征正好相反。傅里叶变换得到的频谱图亮度值能达到$10^6$，对这类亮度值有着很大动态范围的图像可视化可以利用对数变换的压缩特性。</p>
+<p><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_cheem_log.jpg"></p>
+<h2 id="幂次变换"><a href="#幂次变换" class="headerlink" title="幂次变换"></a>幂次变换</h2><script type="math/tex; mode=display">
+s = cr^\gamma</script><p>$c$和$\gamma$是常数，有时写作$s=c(r+\epsilon)$。选定参数后幂次变换也有类似对数变换压缩-铺开的特性，修改$c,\gamma$能得到上图中对应的曲线族。很多捕捉、打印、显示设备响应满足一个幂次方程，将这一方程的幂次项统一称作gamma，对图像进行幂次变换得到更忠实图像的手段叫<em>伽马矫正</em>，如某crt设备电压响应的伽马值为$2.5$结果会偏暗，可以对图像做$\gamma=0.4$的幂次变换。</p>
+<p>曝光不足的图片可以选小于1的$\gamma$值提升暗部细节，过曝的图片选大于1的$\gamma$值提升对比度。</p>
+<h2 id="分段线性变换函数"><a href="#分段线性变换函数" class="headerlink" title="分段线性变换函数"></a>分段线性变换函数</h2><p><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_2.jpg"></p>
+<p>映射曲线如图1。图二是输入$f$，图三$s_1 = 0, s_2=L,r_1=\min(r), r_2=\max(r)$，做了一个把图像亮度铺到整个亮度等级的变换。</p>
+<h2 id="直方图处理"><a href="#直方图处理" class="headerlink" title="直方图处理"></a>直方图处理</h2><p>输入$M\times N$图像亮度$k\in{0, 1, 2, \cdots,L-1}$，亮度为$k$的像素点有$n_k$个，它的归一化直方图为：</p>
+<script type="math/tex; mode=display">
+p_r(r_k) = \frac{n_k}{MN}</script><p>$p_r$又可近似看作亮度为$k$的点出现在图像中的概率。</p>
+<h3 id="直方图均衡化"><a href="#直方图均衡化" class="headerlink" title="直方图均衡化"></a>直方图均衡化</h3><p>对于任意满足严格单调递增，变换前后区间都在$[0, L-1]$内的变换函数，变换前后亮度值的概率密度函数有以下关系：</p>
+<script type="math/tex; mode=display">
+\int_0^{r_0} p_r(r)dr = \int^{s_0}_0p_s(s)ds\Rightarrow p_s(s) = p_r(r)\frac{dr}{ds} \label{XX}\tag{3-1}</script><p>定义变换：</p>
+<script type="math/tex; mode=display">
+s = T(r) = (L-1)\int^r_0p_r(w)dw</script><p>可知$\frac{dr}{ds} = \frac{1}{(L-1)p_r(r)}$，带入公式$(\text{3-1})$得$p_s(s) = \frac{1}{L-1}$，既变换后图像中的亮度是均匀分布的。这一变换又叫直方图均衡化。离散形式：</p>
+<script type="math/tex; mode=display">
+s_k = (L-1)\sum^r_{k=0}p_r(k)</script><p><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_cheem_eq.jpg"></p>
+<h3 id="直方图匹配"><a href="#直方图匹配" class="headerlink" title="直方图匹配"></a>直方图匹配</h3><p>定义直方图均衡化的变换为$s_r=T(r)$，再定义一种pdf为$p_z(z)$的结果到$s$的变换为</p>
+<script type="math/tex; mode=display">
+s = G(z) = \int^z_0p_z(w)dw \Rightarrow z = G^{-1}(s)</script><p>如果要指定变换后的直方图形状，即$p_z(z)$，那么$r\mapsto z$可以按照以下步骤进行：</p>
+<ol>
+<li>从原图计算$p_r(r)$，求出均衡化结果$p_r(s)$</li>
+<li>求出从$p_z(z)$到$p_s(s)$的逆变换，既$z=G^{-1}(s)$</li>
+</ol>
+<p>虽然可以将$r\mapsto z$直接表示出来，但是求解通常并不简单。但由于处理的图像是离散值：</p>
+<script type="math/tex; mode=display">
+\hat{s}_k = G(z_k) = (L-1)\sum^k_{z=0}p_z(z)</script><p>实际求解$r\mapsto z$不计算$G^{-1}$，步骤2替换为：</p>
+<ol>
+<li>按上式求出所有$\hat{s}_k \mapsto \hat{z}_k$</li>
+<li>均衡化后的图像对某一亮度$s_k$找出最近的$\hat{s}_k$，该值对应有映射$\hat{s}_k \mapsto z_k$。构造映射表记录所有$k$值的映射关系$s_k \mapsto z_k$。</li>
+</ol>
+<p>实际可以不用求过渡的均衡化直接按上面方法求$r_k \mapsto z_k$</p>
+<h3 id="精确直方图匹配"><a href="#精确直方图匹配" class="headerlink" title="精确直方图匹配"></a>精确直方图匹配</h3><p>前面不论是匹配还是均衡化得到的直方图形状都不是和目标直方图一模一样的，因其方法本质是移动直方图上的垂线。</p>
+<p>精确直方图匹配能保证变换后的直方图形状与目标直方图一样。</p>
+<p>现在某图像的非正规化直方图为$H = \{h(0), \cdots ,h(L-1)\}$满足$\sum^{L-1}_{j=0}h(j)=MN$，它的精确直方图匹配分为以下三步：</p>
+<ol>
+<li>按照某一<strong>标准</strong>对图像中的像素点进行排序</li>
+<li>将排好序的像素点分为$L$个群使得第$j$群有$h(j)$个像素点</li>
+<li>将$j$群的所有像素点亮度赋值为$j$</li>
+</ol>
+<p>排序标准需要保证变换能保留像素点间亮度的大小关系，但由于亮度值是有限的所以一般做不到保证像素点间严格的顺序关系，折衷的方法是求像素点的$k$近邻均值来排序。</p>
+<p>如果原图有大面积亮度相等的色块，那么对这部分像素点进行排序是无意义的，这时精确直方图匹配可能会产生不想要的效果。但可以mask掉这部分像素点，只对余下像素点进行操作。</p>
+<h3 id="局部直方图匹配"><a href="#局部直方图匹配" class="headerlink" title="局部直方图匹配"></a>局部直方图匹配</h3><p>扫描图像中的所有像素点，每次只对当前像素点的邻域进行直方图处理。</p>
+<h3 id="利用直方图统计数据进行变换"><a href="#利用直方图统计数据进行变换" class="headerlink" title="利用直方图统计数据进行变换"></a>利用直方图统计数据进行变换</h3><p>可以求出图像的全局均值和标准差$\mu_G, \sigma_G$，对每个像素点$(x,y)$求出其领域内的局部均值和标准差</p>
+<p>$\mu_{(x,y)},\sigma_{(x,y)}$。现在要让左图四角黑块内的图案变亮些</p>
+<p><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_3.jpg"></p>
+<p>令$f(x,y)$是原图$(x,y)$处的亮度值，$g(x,y)$是变换后对应点亮度值，$C,k_0,k_1,k_2,k_3$是提前指定常数：</p>
+<script type="math/tex; mode=display">
+g(x, y) = \left\{
+\begin{aligned}
+&Cf(x, y) \quad if \ k_0\mu_G\leq\mu_{(x,y)}\leq k_1\mu_G \ and \ k_2\sigma_G\leq\sigma_{(x,y)}\leq k_3\sigma_G\\
+&f(x,y) \quad otherwise
+\end{aligned}
+\right.</script><p>书中要得到右图取$k_0=k_2=0,k_1=k_3=0.1,C=20$，这样一来黑块内的图案亮度就被放大了。</p>
+<h1 id="空间滤波基础"><a href="#空间滤波基础" class="headerlink" title="空间滤波基础"></a>空间滤波基础</h1><p>滤波器<em>filter</em>一词是从频域处理借来的。“过滤”<em>filtering</em>指的是对特定频率信号的操作。只允许低频信号通过的叫低通滤波器<em>lowpass filter</em>，对图像应用的效果是使其变模糊。</p>
+<h2 id="线性空间滤波"><a href="#线性空间滤波" class="headerlink" title="线性空间滤波"></a>线性空间滤波</h2><p>线性空间滤波是在输入图像$f$所有像素点$(x,y)$和一个矩阵$w$间进行的乘积和运算：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+correlation: \quad g(x,y)=(w \star f)(x,y)=\sum^a_{s=-a}\sum^b_{t=-b}w(s,t)f(x+s,y+t) \\
+convolution: \quad g(x,y)=(w \ast f)(x,y) = \sum^a_{s=-a}\sum^b_{t=-b}w(s,t)f(x-s,y-t)
+\end{aligned}</script><p>$w$的大小决定了每次运算的邻域大小(上式宽高分辨是$2a+1,2b+1$，这种空间滤波核的别称有<em>mask, template, window, or simply kernel</em>，下面简称为滤波器。</p>
+<p>这一运算叫<strong><em>Correlation（卷积神经网络直接叫卷积）</em></strong>，<strong>卷积</strong>和它唯一的区别是会将滤波器旋转180°。设滤波器大小为$s\times s$，为保证运算前后大小不变会在图像边缘添$(s-1)/2$个常数值，通常是0。</p>
+<p>以一维卷积为例，下面说明卷积核correlation区别：</p>
+<p>滤波器：1 2 4 2 8，卷积相当于旋转180°用8 2 4 2 1做互相关</p>
+<p>输入一维图像：0 0 0 1 0 0 0 0，padding后为0 0 0 0 0 <strong>1</strong> 0 0 0 0 0 0</p>
+<p>correlation运算结果：0 8 2 <strong>4</strong> 2 1 0 0</p>
+<p>卷积结果：0 1 2 <strong>4</strong> 2 8 0 0</p>
+<p>从结果来看，卷积就是滤波器$w$在输入图像上的平移，使其中心点<strong>4</strong>与原输入<strong>1</strong>的位置重合。correlation结果会将卷积核旋转180°。</p>
+<p>推广到输入2D图像：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&input &kernel\\ 
+&\begin{matrix}
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0
+\end{matrix}
+&\begin{matrix}
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+7 & 8 & 9 
+\end{matrix}
+\end{aligned}</script><script type="math/tex; mode=display">
+\begin{aligned}
+&correlation \ result &convolution \ result \\
+&\begin{matrix}
+0 & 0 & 0 & 0 & 0 \\
+0 & 9 & 8 & 7 & 0 \\
+0 & 6 & 5 & 4 & 0 \\
+0 & 3 & 2 & 1 & 0 \\
+0 & 0 & 0 & 0 & 0
+\end{matrix} 
+&\begin{matrix}
+0 & 0 & 0 & 0 & 0 \\
+0 & 1 & 2 & 3 & 0 \\
+0 & 4 & 5 & 6 & 0 \\
+0 & 7 & 8 & 9 & 0 \\
+0 & 0 & 0 & 0 & 0
+\end{matrix}
+\end{aligned}</script><p>如果滤波器是中心对称的，卷积和correlation结果相等。</p>
+<p>强度<em>amplitude</em>为$A$，位置为$(x_0,y_0)$的脉冲<em>impulse</em>是满足以下条件的2D图像</p>
+<script type="math/tex; mode=display">
+\delta(x-x_0,x-y_0) = \left\{
+\begin{aligned}
+&A \quad if \ x=x_0 \ and \ y=y_0\\
+&0 \quad otherwise
+\end{aligned}
+\right.</script><p>$A=1$时叫单位脉冲，对单位脉冲做卷积就是把滤波器平移到脉冲图像上使其中心与脉冲位置重合。</p>
+<p>卷积和correlation满足以下运算性质：</p>
+<p><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_4.jpg"></p>
+<h3 id="可分滤波器"><a href="#可分滤波器" class="headerlink" title="可分滤波器"></a>可分滤波器</h3><p>如果二维滤波器$w$能写成两个矩阵：分辨有$m$和$n$个元素的列向量$w_1$和行向量$w_2$相乘$w=w_1w_2$，那么它是可分的。且列向量乘行向量就等于它们做卷积。根据卷积结合律，$w \ast f = w_1 \ast w_2 \ast f$</p>
+<p>直接卷积和分离卷积的复杂度分别为$MNmn$和$MN(m+n)$</p>
+<p>根据矩阵理论，上面定义的可分滤波器的秩必为1，各行都是线性相关的，所以分解会很容易。</p>
+<h3 id="空间域和频域的滤波对比"><a href="#空间域和频域的滤波对比" class="headerlink" title="空间域和频域的滤波对比"></a>空间域和频域的滤波对比</h3><p>第四章介绍的傅里叶变换是空间域和频域间转换的方法，频域和空间域的滤波有两种基本性质：</p>
+<ol>
+<li>空间域卷积等价于频域做乘法，反之亦然</li>
+<li>空间域强度为$A$的脉冲是频域内的一个常量$A$，反之亦然</li>
+</ol>
+<p>图像可以分解为许多正弦函数的和，亮度变化缓慢的区域表现为较低频率的正弦函数，反之变化快的区域如边缘表现为较高频的正弦函数，因此削弱这部分会有助于模糊图像。</p>
+<h3 id="构造滤波器的方法"><a href="#构造滤波器的方法" class="headerlink" title="构造滤波器的方法"></a>构造滤波器的方法</h3><ol>
+<li>根据数学性质，如对邻域求均值可以类比成积分，会模糊图像，同理求导数能锐化图像</li>
+<li>对一个有需要性质的二维函数进行采样，如高斯核可以做加权平均获得想要的模糊效果。</li>
+<li>设计有特殊频率响应的滤波器。</li>
+</ol>
+<h2 id="低通滤波器"><a href="#低通滤波器" class="headerlink" title="低通滤波器"></a>低通滤波器</h2><p>低通滤波器可以用来削弱亮度的尖锐变化，因为噪音经常就是这种情况，所以低通滤波器经常用来降噪，另一个应用是轮廓检测前做预处理：除掉亮度等级太少的<em>false contours</em>。</p>
+<h3 id="Box-Filter"><a href="#Box-Filter" class="headerlink" title="Box Filter"></a>Box Filter</h3><p>$m \times n$滤波器所有系数都为1，再全乘上常数$\frac{1}{mn}$，这种保证系数和为1的归一化手段会应用到本节所有滤波器。这样可以保证输出图像该区域均值和原图相等，且不会引入<em>bias</em>，即原图亮度和与输出相等。显然box滤波器</p>
+<h3 id="低通高斯滤波器"><a href="#低通高斯滤波器" class="headerlink" title="低通高斯滤波器"></a>低通高斯滤波器</h3><p>boxfilter简单但很多场景下不适用，一种缺点是会倾向于沿着垂直方向模糊产生矩形效果。</p>
+<p>高斯核是唯一可分且圆周对称<em>circularly symmetric</em>的核，既响应和旋转角度无关，表现在表达式可以写成只关于当前点到中心距离$r = (s^2+t^2)^{\frac{1}{2}}$的函数：</p>
+<script type="math/tex; mode=display">
+w(s,t) = Ke^{-\frac{s^2+t^2}{2\sigma^2}}=Ke^{-\frac{r^2}{2\sigma^2}} \quad (\text{letting } r^2=s^2+t^2)</script><p>$K$是用于归一化的常数。</p>
+<p>由高斯分布的性质可知，距离中心大于$3\sigma$的值小到可以忽略不计，所以选定核大小为$\lceil 6\sigma\rceil\times \lceil 6\sigma\rceil $基本就能保留完整的高斯核特性。</p>
+<p>高斯滤波结果会比boxfilter更平滑。</p>
+<p>内容一样，尺寸越大的图片，要做到和较小图片同样程度的模糊效果，需要用到的滤波器越大。</p>
+<p>使用大的高斯核利用其可分性质和分解的核运算节省的计算开销是可观的。</p>
+<h3 id="Order-Statistic-Nonlinear-Filters"><a href="#Order-Statistic-Nonlinear-Filters" class="headerlink" title="Order-Statistic (Nonlinear) Filters"></a>Order-Statistic (Nonlinear) Filters</h3><p>这是一类非线性滤波器，响应取决于当前滤波器遇上邻域的统计信息。</p>
+<p>以<em>median filter</em>为例，对当前邻域按亮度进行排序，将邻域中心的像素点亮度值替换为中位数。它能做到降噪效果好的同时不至于使图片过于模糊。</p>
+<h2 id="高通滤波器"><a href="#高通滤波器" class="headerlink" title="高通滤波器"></a>高通滤波器</h2><p>平均可类比求导，能模糊图像。那么求微分自然就能锐化图像。</p>
+<p>以离散一阶函数$f$为例，定义其导数和二阶导为：</p>
+<script type="math/tex; mode=display">
+\frac{\partial f}{\partial x} = f(x+1)-f(x) \\
+\frac{\partial^2 f}{\partial x^2} = f(x+1)+f(x-1) - 2f(x)</script><p>图像中有许多渐变的部分，一阶导不为零，二阶导为零，二阶导会在过渡处产生非零点，边缘通常就在这种地方。而且实际上用卷积实现二阶导更容易。</p>
+<p>现将以上导数定义推广到二维，最简单的<em>isotropic derivative operator</em>是拉普拉斯核$\nabla^2f = \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2}$：</p>
+<script type="math/tex; mode=display">
+\frac{\partial^2 f}{\partial x^2} = f(x+1,y)+f(x-1,y) - 2f(x,y) \\
+\frac{\partial^2 f}{\partial y^2} = f(x,y+1)+f(x,y-1) - 2f(x,y) \\
+\nabla^2f(x,y) = f(x,y+1)+f(x,y-1)+f(x+1,y)+f(x-1,y) - 4f(x,y)</script><p>对应的拉普拉斯卷积核有两种，中心系数为正和中心系数为负的，下面默认使用中心系数为负的拉普拉斯核$l$：</p>
+<script type="math/tex; mode=display">
+\begin{matrix}
+0 & 1 & 0 \\
+1 & -4 & 1 \\
+0 & 1 & 1
+\end{matrix}</script><p>锐化表达式可写作：</p>
+<script type="math/tex; mode=display">
+g(x, y) = f(x, y) - l\ast f(x,y)</script><p>相当于利用局部的亮度不均放大了其对比度。</p>
+<h3 id="Unsharp-Masking"><a href="#Unsharp-Masking" class="headerlink" title="Unsharp Masking"></a>Unsharp Masking</h3><p>另一种锐化手段：设模糊后的图片为$\bar{f}(x, y)$，可计算<em>unsharp mask</em>$g_{mask}=f(x,y)-\bar{f}(x,y)$，锐化图片为$g(x,y)=f(x,y) + kg_{mask}(x, y)$，取$k\geq1$时又叫<em>highboost filtering</em></p>
+<h3 id="使用一阶导锐化图像"><a href="#使用一阶导锐化图像" class="headerlink" title="使用一阶导锐化图像"></a>使用一阶导锐化图像</h3><p>二维图像梯度的定义为</p>
+<script type="math/tex; mode=display">
+\nabla(f) = \begin{bmatrix} g_x \\ g_y \end{bmatrix} = \begin{bmatrix}\frac{\partial{f}}{\partial x}\\\frac{\partial{f}}{\partial y} \end{bmatrix}</script><p>该向量的方向是该点亮度变换最大的方向，大小可表示为$M(x,y)=|\nabla f(x,y)| = \sqrt{g_x^2+g_y^2}$，$M$就是原图像的梯度图。为简化计算用$M\approx |g_x|+|g_y|$近似。</p>
+<p>实际计算梯度图也能用卷积近似，选用的滤波器又叫<em>Sobel operators</em>，中间系数为2是赋予其更高权重以制造平滑效果</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+-1 & -2 & -1 \\
+0 & 0 & 0 \\
+1 & 2 & 1
+\end{bmatrix}
+\begin{bmatrix}
+-1 & 0 & 1 \\
+-2 & 0 & 2 \\
+-1 & 0 & 1
+\end{bmatrix}</script><p>梯度图经常用于检测瑕疵，或者作为自动检测程序的预处理，如下图光学镜片的梯度图凹陷边缘更为明显：</p>
+<p><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_5.jpg"></p>
+<h2 id="带通滤波器，带阻滤波器"><a href="#带通滤波器，带阻滤波器" class="headerlink" title="带通滤波器，带阻滤波器"></a>带通滤波器，带阻滤波器</h2><p><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_6.jpg"></p>
+<p>高/低通滤波器变换到频域如上图所示。可以看出高通滤波器就等于常数1减去低通滤波器。前文提到频域中的常量1就相当于空间域的单位脉冲，因此可以用一个单位脉冲减去低通滤波器来构造高通滤波器，这正是Unsharp Masking的原理。</p>
+<p>带通/带阻滤波器分别是只允许特定频段/只阻止特定频段的滤波器，构造逻辑类似</p>
+<p><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_7.jpg"></p>
+<h1 id="结合不同的图像增强技术"><a href="#结合不同的图像增强技术" class="headerlink" title="结合不同的图像增强技术"></a>结合不同的图像增强技术</h1><p>下面以医学图像实例来体现结合增强技术的思路</p>
+<p><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_8.jpg"></p>
+<p><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_9.jpg"></p>
+<p>以上图像编号为a-h。a是待增强图像，需要锐化和亮度变换提升细节。</p>
+<p>直接使用<em>Sobel operator</em>得到的二阶导图如b，锐化结果见c，由于噪声较多所以效果不佳。</p>
+<p>梯度图在渐变区域的响应高于二阶导，对噪音的响应和对细节的保留都低于二阶导，因此可以求出原图的梯度图d，对其使用低通滤波器降噪得到e，将e乘上二阶导b得到f，这步乘法可以看成是结合了二阶导和梯度图的优势：保留较强区域细节的同时削弱噪音，原图再加上f得到g，最后通过log变换（因为要铺开亮度分布所以$\gamma &lt; 1$）得到h。</p>
+<h2 id="模糊集"><a href="#模糊集" class="headerlink" title="模糊集"></a>模糊集</h2><p>以后觉得有必要再补…</p>
+<p>下面贴一个风格化滤镜，卷积核为：</p>
+<script type="math/tex; mode=display">
+\begin{matrix}
+-1 & -1 & -1 & -1 & -1 \\
+-1 & -1 & -1 & -1 & -1 \\
+-1 & -1 & 30 & -1 & -5 \\
+-1 & -1 & -1 & -1 & -1 \\
+-1 & -1 & -1 & -1 & -1 \\
+\end{matrix}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">painter_ink</span>(<span class="params">img, kernel</span>):</span></span><br><span class="line">    rst = cv2.filter2D(img, -<span class="number">1</span>, kernel).astype(np.float32)</span><br><span class="line">    rst = exp_transform(rst, <span class="number">2</span>) // exp_transform就是之前的exp变换</span><br><span class="line">    <span class="keyword">return</span> rst.astype(np.uint8)</span><br></pre></td></tr></table></figure>
+<p>结果如下<br><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_cheem_style.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/22/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86-C1-C2-%E5%AF%BC%E8%AE%BA%E4%B8%8E%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -747,7 +1018,7 @@ x_b \\ y_b \\ z_b
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
