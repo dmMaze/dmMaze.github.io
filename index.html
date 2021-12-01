@@ -187,7 +187,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-12-01 18:27:13 / Modified: 18:48:39" itemprop="dateCreated datePublished" datetime="2021-12-01T18:27:13+08:00">2021-12-01</time>
+              <time title="Created: 2021-12-01 18:27:13 / Modified: 19:07:47" itemprop="dateCreated datePublished" datetime="2021-12-01T18:27:13+08:00">2021-12-01</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -404,7 +404,7 @@ g(x, y) = f(x, y) - l\ast f(x,y)</script><p>相当于利用局部的亮度不均
 <p>直接使用<em>Sobel operator</em>得到的二阶导图如b，锐化结果见c，由于噪声较多所以效果不佳。</p>
 <p>梯度图在渐变区域的响应高于二阶导，对噪音的响应和对细节的保留都低于二阶导，因此可以求出原图的梯度图d，对其使用低通滤波器降噪得到e，将e乘上二阶导b得到f，这步乘法可以看成是结合了二阶导和梯度图的优势：保留较强区域细节的同时削弱噪音，原图再加上f得到g，最后通过log变换（因为要铺开亮度分布所以$\gamma &lt; 1$）得到h。</p>
 <h2 id="模糊集"><a href="#模糊集" class="headerlink" title="模糊集"></a>模糊集</h2><p>以后觉得有必要再补…</p>
-<p>下面贴一个风格化滤镜，卷积核为：</p>
+<h1 id="风格化滤镜"><a href="#风格化滤镜" class="headerlink" title="风格化滤镜"></a>风格化滤镜</h1><p>下面贴一个风格化滤镜，抄群友的，卷积核为：</p>
 <script type="math/tex; mode=display">
 \begin{matrix}
 -1 & -1 & -1 & -1 & -1 \\
@@ -413,7 +413,7 @@ g(x, y) = f(x, y) - l\ast f(x,y)</script><p>相当于利用局部的亮度不均
 -1 & -1 & -1 & -1 & -1 \\
 -1 & -1 & -1 & -1 & -1 \\
 \end{matrix}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">painter_ink</span>(<span class="params">img, kernel</span>):</span></span><br><span class="line">    rst = cv2.filter2D(img, -<span class="number">1</span>, kernel).astype(np.float32)</span><br><span class="line">    rst = exp_transform(rst, <span class="number">2</span>) // exp_transform就是之前的exp变换</span><br><span class="line">    <span class="keyword">return</span> rst.astype(np.uint8)</span><br></pre></td></tr></table></figure>
-<p>结果如下<br><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_cheem_style.jpg"></p>
+<p>结果如下，clara那张先做了高斯模糊<br><img src="/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/C3_cheem_style.jpg"></p>
 
       
     </div>
