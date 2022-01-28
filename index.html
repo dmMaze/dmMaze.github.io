@@ -162,6 +162,309 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="dmmaze">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ephemerallib">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/" class="post-title-link" itemprop="url">图像处理C4-频域滤波</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-01-28 17:01:29 / Modified: 17:07:13" itemprop="dateCreated datePublished" datetime="2022-01-28T17:01:29+08:00">2022-01-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">图像处理</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="单位脉冲与其筛选性质"><a href="#单位脉冲与其筛选性质" class="headerlink" title="单位脉冲与其筛选性质"></a>单位脉冲与其筛选性质</h1><p><strong>单位脉冲</strong> <em>unit impulse</em>是满足以下条件：</p>
+<script type="math/tex; mode=display">
+\delta(t) = \left\{\begin{aligned}
+&0 \quad if  \ t \neq 0 \\ &1 \quad if \ t = 0
+\end{aligned}
+\right.</script><p>且满足约束$\int ^{\infty}_{-\infty}\delta(t)dt=1$的函数。因为这一积分所以单位脉冲有所谓的筛选性质：</p>
+<script type="math/tex; mode=display">
+\int^\infty_{-\infty}{\delta(t)f(t)dt}=f(0)</script><p>位于$t_0$点的单位脉冲写为$\delta(t-t_0)$，同理</p>
+<script type="math/tex; mode=display">
+\int^\infty_{-\infty}{\delta(t-t_0)f(t)dt}=f(t_0)</script><p><strong>脉冲序列</strong> <em>impulse train</em>是由间隔为$\triangle T$的无限个单位脉冲累加成的函数$s_{\triangle T}(t)$：</p>
+<script type="math/tex; mode=display">
+s_{\triangle T}(t) = \sum^\infty_{k=-\infty}\delta(t-k\triangle T)</script><p>同理对离散变量$x$，满足上面条件，约束条件：</p>
+<script type="math/tex; mode=display">
+\sum^\infty_{-\infty}\delta(x)=1</script><p>筛选性质：</p>
+<script type="math/tex; mode=display">
+\sum^\infty_{-\infty}\delta(x)f(x)=f(0)</script><h1 id="一元连续变量的傅里叶变换"><a href="#一元连续变量的傅里叶变换" class="headerlink" title="一元连续变量的傅里叶变换"></a>一元连续变量的傅里叶变换</h1><p>有限变量上的连续函数$f(t)$的傅里叶变换是关于频率$\mu$的函数，可以写作</p>
+<script type="math/tex; mode=display">
+F(\mu)=\mathcal{J}\{f(t)\} = \int^{\infty}_{-\infty}f(t)e^{-j2\pi\mu t}dt</script><p>逆傅里叶变换有：</p>
+<script type="math/tex; mode=display">
+f(t) = \mathcal{J}^{-1}\{f(\mu)\} = \int^{\infty}_{-\infty}f(t)e^{j2\pi\mu t}d\mu</script><p>两函数构成傅里叶变换对$f(t) \Leftrightarrow F(\mu)$，代入欧拉公式，傅里叶变换写成</p>
+<script type="math/tex; mode=display">
+F(\mu)=\int^\infty_{-\infty}f(t)[\cos({2\pi\mu t}) -j\sin({2\pi\mu t})]dt</script><p>所以$f(t)$的傅里叶变换就是它乘上一个正弦项的展开，这一正弦项的频率取决于$\mu$，积分后的变量也只剩下频率，所以将傅里叶变换的域称作频域。</p>
+<h2 id="例1-盒形函数的傅里叶变换"><a href="#例1-盒形函数的傅里叶变换" class="headerlink" title="例1 盒形函数的傅里叶变换"></a>例1 盒形函数的傅里叶变换</h2><p><img src="/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/C4_1.jpg"></p>
+<p>对图1傅里叶变换带入公式得：</p>
+<script type="math/tex; mode=display">
+F(\mu) = -\frac{A}{j2\pi\mu}[e^{-j2\pi \mu t}]^{W/2}_{-W/2}=AW\frac{\sin{(\pi W\mu)}}{\pi W \mu}</script><p>$F(\mu)$图像如图2，取绝对值的图像就是傅里叶频谱或频域<strong>频谱</strong>如图3$|F(\mu)|$，该函数值得注意的性质有</p>
+<ol>
+<li>所有零点值都是和原函数宽度$W$的倒数成比例的。</li>
+<li>所有凸点的高度变化是关于横坐标的函数</li>
+<li>该函数从负无穷延伸到正无穷</li>
+</ol>
+<h2 id="例2-单位脉冲及脉冲序列的傅里叶变换"><a href="#例2-单位脉冲及脉冲序列的傅里叶变换" class="headerlink" title="例2 单位脉冲及脉冲序列的傅里叶变换"></a>例2 单位脉冲及脉冲序列的傅里叶变换</h2><p>单位脉冲的傅里叶变换：</p>
+<script type="math/tex; mode=display">
+\mathcal{J}\{\delta(t-t_0)\} = e^{-j2\pi\mu t_0}</script><p>对于脉冲序列$s_{\triangle T}(t)$，其傅里叶集$S_{\triangle T}(t)$为</p>
+<script type="math/tex; mode=display">
+\sum^\infty_{n=-\infty}c_ne^{j2\pi n t / \triangle T},c_n=\frac{1}{\triangle T} \int^\infty_{-\infty}\delta(t)e^{-j2\pi nt / \triangle T}dt=\frac{1}{\triangle T}</script><p>对$S_{\triangle T}(t)$求傅里叶变换，由于该变换是线性的，所以结果等于对各项求变换再求和：</p>
+<script type="math/tex; mode=display">
+\mathcal{J}\{S_{\triangle T}(t)\}=\frac{1}{\triangle T}\sum^\infty_{n=-\infty}\mathcal{J}\{e^{j2\pi n t / \triangle T}\} \tag{4-1}</script><p>现有傅里叶变换对$f(t)\Leftrightarrow F(\mu)$，则对$F(t)$求傅里叶变换$\int^{\infty}_{-\infty}F(t)e^{-j2\pi\mu t}dt = f(-\mu)$。前面已算出$\mathcal{J}\{\delta(t-t_0)\} = e^{-j2\pi\mu t_0}$，$e^{-j2\pi\mu t_0}$的傅里叶变换是$\delta(-t-t_0)$（书上这里是$\delta(-\mu-t_0)$应该是错了），设$a=-t_0$，由于$\delta$有0以外值都为0的性质所以$\delta(-t+a)=\delta(t-a)$，因此$e^{j2\pi a \mu }$的傅里叶变换是$\delta(t-a)$，同理$e^{j2\pi at} \Leftrightarrow \delta(\mu-a)$</p>
+<p>那么将$\mathcal{J}\{e^{j2\pi n t / \triangle T}\} = \delta(\mu - n/\triangle T)$带入(4-1)得到脉冲序列的傅里叶变换$S(\mu)$</p>
+<script type="math/tex; mode=display">
+S(\mu) = \frac{1}{\triangle T}\sum^{\infty}_{-\infty}\delta(\mu-n/\triangle T)</script><p>这一结果说明以$\triangle T$ 为周期的脉冲序列的傅里叶变换也是一个脉冲序列，周期为$\triangle T$</p>
+<h1 id="卷积"><a href="#卷积" class="headerlink" title="卷积"></a>卷积</h1><p>已知傅里叶对为$h(t)\Leftrightarrow H(\mu)$，则对于函数$h(t-\tau)$，其傅里叶变换为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathcal{J}\{h(t-\tau)\} &= \int^{\infty}_{-\infty}h(t-\tau)e^{-j2\pi\mu t}dt 
+\\&= e^{-j2\pi \mu \tau}\int^{\infty}_{-\infty}h(t-\tau)e^{-j2\pi\mu (t-\tau)}d(t-\tau) \\
+&=e^{-j2\pi \mu \tau}H(\mu) 
+\end{aligned}
+\tag{4-2}</script><p>已知$f(t)\Leftrightarrow F(\mu), h(t)\Leftrightarrow H(\mu)$计算卷积$(f\ast h)(t)$的傅里叶变换：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathcal{J}\{(f\ast h)(t)\} &=  \int^{\infty}_{-\infty} e^{-j2\pi\mu t} \left[\int^\infty_{-\infty}{f(\tau)h(t-\tau)} d\tau \right] dt \\
+&= \int^{\infty}_{-\infty} f(\tau)\left[\int^\infty_{-\infty}{e^{-j2\pi\mu t}h(t-\tau)} dt \right] d\tau \\
+&= \int^{\infty}_{-\infty} f(\tau)e^{-j2\pi \mu \tau}H(\mu) d\tau \qquad \text{(代入4-2)} \\
+&=F(\mu)H(\mu) = F \cdot H(\mu)
+\end{aligned}</script><p>可知，$(f\ast h)(t) \Leftrightarrow (F\cdot H)(\mu)$，两函数卷积的傅里叶变换等于它们各自的傅里叶变换的乘积。</p>
+<p>同样地有$(f \cdot h)(t) \Leftrightarrow (F\ast H)(\mu)$。</p>
+<p>频域中的卷积相当于空间域的乘积，频域中的乘积相当于空间域的卷积，这就是频域滤波的基本定理。</p>
+<h1 id="采样和采样函数的傅里叶变换"><a href="#采样和采样函数的傅里叶变换" class="headerlink" title="采样和采样函数的傅里叶变换"></a>采样和采样函数的傅里叶变换</h1><h2 id="采样"><a href="#采样" class="headerlink" title="采样"></a>采样</h2><p>连续函数采样和量化后才能变成计算机能处理的离散值。对于连续函数$f(t)$，采样方法可以是乘上周期为$\triangle T$的脉冲序列。采样间隔的倒数$\frac{1}{\triangle T}$就是采样率。采样后的函数写作</p>
+<script type="math/tex; mode=display">
+\tilde{f}(t)=f(t)s_{\triangle T}(t)=\sum_{n=-\infty}^\infty f(t)\delta(t-n\triangle T)</script><p>利用脉冲序列的筛选性质，其中任意一份样本可以通过积分得到$f_k=\int^\infty_{-\infty}f(t)\delta(t-k\triangle T)=f(k\triangle T)$</p>
+<h2 id="采样函数的傅里叶变换"><a href="#采样函数的傅里叶变换" class="headerlink" title="采样函数的傅里叶变换"></a>采样函数的傅里叶变换</h2><p>设$F(\mu)$是连续函数$f(t)$的傅里叶变换，脉冲序列$s_{\triangle T}$的傅里叶变换是$S(\mu)$，采样函数是$f$和脉冲序列的乘积，则采样函数的傅里叶变换就是$F(\mu)$和$S(\mu)$的卷积：</p>
+<script type="math/tex; mode=display">
+\tilde{F}(\mu) = \mathcal{J}\{\tilde{f}(t)\} = \mathcal{J}\{f(t)s_{\triangle T}\}=(F \ast S)(\mu)</script><p>带入之前求出的脉冲序列的傅里叶变换$S(\mu)=1/\triangle T\sum^\infty_{n=-\infty}\delta(\mu-n/\triangle T)$：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+(F\ast S)(\mu) &= \int^\infty_{-\infty}F(\tau)S(\mu-\tau)d\tau \\
+&= 1/\triangle T\sum^\infty_{n=-\infty}\int F(\tau)\delta(\mu-n/\triangle T - \tau)d\tau \\
+&= 1/\triangle T\sum^\infty_{n=-\infty}F(\mu-n/\triangle T)
+\end{aligned}
+\tag{4-3}</script><p>由结果可知，采样函数的傅里叶变换$\tilde{F}(\mu)$是一个原函数傅里叶变换的拷贝序列，拷贝间距由$1/\triangle T$决定。注意$\tilde{F}(\mu)$是连续函数。</p>
+<p>下图1是$f(t)$的傅里叶变换函数图像$F(\mu)$，图二是采样率$1/\triangle T$足够大的点，样本之间还留有间隙，叫过采样，图3正好叫<em>critically sampling</em>，图四采样率不足没能保留原有变换因此叫欠采样。</p>
+<p><img src="/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/C4_2.jpg"></p>
+<h2 id="采样理论"><a href="#采样理论" class="headerlink" title="采样理论"></a>采样理论</h2><p>如函数$f(t)$的傅里叶变换函数在有限区间$[-\mu_{max}, \mu_{max}]$上有非零点，在该区间以外恒为零，那么$f(t)$就是有限带宽函数。当$\triangle T = \mu_{max}$时就是critically sampling，采样率只要满足$1/\triangle T \geq 2\mu_{max}$，就能通过从$\tilde{F}(\mu)$提取一个周期取出完整的$F(\mu)$，计算其逆傅里叶变换还原成原函数。</p>
+<p>既对连续的<strong>有限带宽</strong>函数，只要采样率大于该函数内容的最高频率，就能从样本完整还原出原函数。</p>
+<p>采样率正好等于$2\mu_{max}$时叫<strong>奈奎斯特采样率</strong> <em>Nyquist rate</em>。实际中一般要超过奈奎斯特采样率。</p>
+<p>从上图3取出一个完整周期很简单，就是直接乘上盒形函数$H(u)$：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+H(\mu) &= \left\{
+\begin{aligned}
+&\triangle T \quad &-\mu_{max} \leq \mu \leq \mu_{max}\\
+&0 \quad &otherwise
+\end{aligned}
+\right. \\
+F(\mu) &= H(\mu)\tilde{F}(\mu) 
+\end{aligned}</script><p>$\triangle T$是为了将(4-3)结果前的系数抵消。</p>
+<p>函数$H(\mu)$是一个低通滤波器，也是理想的，硬件上实现从$\triangle T$到0的跳跃不可能。因为它是用来还原原函数的，这类滤波器又叫重建滤波器<em>reconstruction filters</em>。</p>
+<h2 id="走样"><a href="#走样" class="headerlink" title="走样"></a>走样</h2><p>走样alias英文字面意思是假身份，信号处理领域专指采样后两种不同信号变得无法区分的现象，既一种信号冒充了另一种信号。</p>
+<p><img src="/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/C4_3.jpg"></p>
+<p>如图所示，走样通常在不同信号采样点的值相等时发生，这时对应的两连续函数叫走样对。</p>
+<p>除了一些特殊情况外，走样总是会出现的，因为即使原函数是有限带宽的，限制函数区间（长度）仍会引入无无限的频率成分。如要限制一个函数$f(t)$到有限区间$[0, T]$，只要将其乘上对应的盒型函数$h(x)$，相当于在频域中进行卷积，盒型函数的傅里叶变换如前文是无限的，所以即使$F(\mu)$是有限带宽的，它的卷积结果也会有从负无穷延伸到正无穷的频率成分。相反地，有限带宽函数必然从负无穷延伸到正无穷。</p>
+<p>一种特例是周期函数。</p>
+<p>尽管有限长度信号的采样会不可避免产生走样，但是能在<strong>采样前</strong>削弱高频信号来减缓走样效果，这一过程叫反走样。</p>
+<p><img src="/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/C4_4.jpg"></p>
+<p>上图表明了高频信号欠采样会产生的走样现象。因此音频录制通常会先加低通滤波器滤去高于采样率一半的高频信号避免产生虚假的低频成分。</p>
+<h2 id="根据样本数据进行函数重建"><a href="#根据样本数据进行函数重建" class="headerlink" title="根据样本数据进行函数重建"></a>根据样本数据进行函数重建</h2><p>实践中，从样本进行函数重建通常是通过插值完成的。</p>
+<p>前文提到的重建过程是从频域乘上盒型函数得到完整周期$F(\mu) = H(\mu)\tilde{F}$，因此相应的有$f(t)=h(t)\ast \tilde{f}(t)$：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f(t)&=h(t)\ast \tilde{f}(t) \\
+&= \int^\infty_{-\infty}{h(\tau)\sum^\infty_{-\infty}f(t-\tau)\delta(t-\tau-n \triangle T)} d\tau  \\
+&=\sum^\infty_{-\infty}h(t-n\triangle T)f(n\triangle T) \\
+&= \sum^\infty_{-\infty}sinc[(t-n\triangle T)/\triangle T]f(n\triangle T)
+\end{aligned}</script><p>理想盒型函数的逆傅里叶变换是$sinc$函数,$sinc(m) = \frac{\sin\pi m}{\pi m}$，该函数在零点值为1，其他整数点为0。则复原函数在整数点的值就等于样本值，其他点的值就是样本点的加权求和，也就是插值。这一结果表明样本间的值需要无限个样本进行插值才能求出，实际中是用有限个样本近似的。</p>
+<h1 id="一元变量的离散傅里叶变换"><a href="#一元变量的离散傅里叶变换" class="headerlink" title="一元变量的离散傅里叶变换"></a>一元变量的离散傅里叶变换</h1><h2 id="从采样函数的连续变换获得离散傅里叶变换"><a href="#从采样函数的连续变换获得离散傅里叶变换" class="headerlink" title="从采样函数的连续变换获得离散傅里叶变换"></a>从采样函数的连续变换获得离散傅里叶变换</h2><p>后面连续函数统一用$f(t)$，离散函数统一用$f(x)$</p>
+<p>离散函数的傅里叶变换是连续的，现在要推导离散傅里叶变换DFT，离散函数的傅里叶变换：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\tilde{F}(\mu) &= \int^\infty_{-\infty}f(x)e^{-j2\pi \mu x} \\
+&= \sum^{\infty}_{x=-\infty}f_n e^{-j2\pi \mu x\triangle T}
+\end{aligned}</script><p>由结果可知$\tilde{F}$是个连续周期函数，周期$1/\triangle T$。所以只需要取出一个周期就能描述$\tilde{F}(\mu)$，现在在$[0, 1/\triangle T]$上等间距采样$M$个点，既取频率$\frac{\mu}{M\triangle T}, \mu=0,1,\cdots,M-1$，带入得到离散傅里叶变换表达式：</p>
+<script type="math/tex; mode=display">
+F_\mu = \sum^{M-1}_{n=0}f_xe^{-j2\pi \mu x / M}</script><p>相应地可以计算离散傅里叶变换IDFT：</p>
+<script type="math/tex; mode=display">
+f_x = 1/M \sum^{M-1}_{m=0}F_\mu e^{j2\pi \mu x/M}</script><p>带入上上式显然成立，则它们构成了离散傅里叶变换对，而且这表明对任意有限i连续样本点，傅里叶和逆傅里叶变换都是存在的。</p>
+<p>注意采样区间取$[0, 1/\triangle T]$是对两相邻变换的半周期进采样，结果是频率较低的半周期出现在较高的采样点，以后会讨论如何排序。</p>
+<p>易证$f(x-x_0)\Leftrightarrow F(\mu)e^{-j2\pi \mu x_0 /M}$，离散形式的卷积：</p>
+<script type="math/tex; mode=display">
+f(x) \ast h(x) = \sum^{M-1}_{m=0}f(m)h(x-m)</script><p>同样满足前面提到的卷积定理。</p>
+<h2 id="采样和频率间隔的关系"><a href="#采样和频率间隔的关系" class="headerlink" title="采样和频率间隔的关系"></a>采样和频率间隔的关系</h2><p>如果$f(x)$由$M$个间隔为$\triangle T$的样本点组成，那么长度$T=M\triangle T$，相应的频率间隔$\triangle \mu = \frac{1}{M \triangle T}$，频域范围是$\frac{1}{\triangle T}$</p>
+<h1 id="二元离散傅里叶变换"><a href="#二元离散傅里叶变换" class="headerlink" title="二元离散傅里叶变换"></a>二元离散傅里叶变换</h1><p>二元离散形式的单位脉冲：</p>
+<script type="math/tex; mode=display">
+\delta(x, y) = 
+\left\{
+\begin{aligned}
+&1 &\quad if \ x=y=0\\
+&0 &otherwise
+\end{aligned}
+\right.</script><p>它的筛选性质满足</p>
+<script type="math/tex; mode=display">
+\sum^{\infty}_{x=-\infty}\sum^{\infty}_{y=-\infty}f(x, y)\delta(x,y)=f(0, 0)</script><p>二维离散傅里叶变换和逆傅里叶变换分别为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+F(u, v) &= \sum^{M-1}_{x=0}\sum^{N-1}_{y=0}f(x,y)e^{-j2\pi(ux + zy)} \\
+f(x, y) &= \frac{1}{MN}\sum^{M-1}_{x=0}\sum^{N-1}_{y=0}F(u,v)e^{j2\pi(ux + zy)}
+\end{aligned}</script><p>类似的，如果满足$1/\triangle T &gt; 2\mu_{max}, 1/\triangle Z &gt; 2v_{max}$，也能说采样结果没有信息缺失。</p>
+<h2 id="二维走样"><a href="#二维走样" class="headerlink" title="二维走样"></a>二维走样</h2><p>二维走样主要分两种：空间走样和时间走样。前者主要是单张图像的欠采样，是本节关注的内容，后者是指序列动态图像由于在时间上采样率不足造成的走样现象，如fps不足的视频高速转动的轮胎会倒转。</p>
+<p>以斜的平行线为例，采样率维持不变，高频内容（线条细而密）采样后的锯齿（走样的一种）现象较严重，低频内容（线条宽）走样较轻。</p>
+<p>以采样黑白格棋盘为例，固定采样的图像尺寸为$96\times 96$像素，那么只要满足棋盘频率$\mu &lt; 1/2  \ circle /pixel$，既棋盘格子的大小小于一个像素，就不会发生走样。</p>
+<p><img src="/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/C4_5.jpg"></p>
+<p>以上原棋盘格子尺寸分别为16，6，0.95，0.48。注意图四虽然看起来正常但其实是错的，这表明走样可能会产生看似正常的欺骗性结果。</p>
+<p>严格来说反走样技术是用在采样前的，如一些摄像头会有削弱高频信号的滤镜</p>
+<h1 id="2D傅里叶变换和逆傅里叶变换的性质"><a href="#2D傅里叶变换和逆傅里叶变换的性质" class="headerlink" title="2D傅里叶变换和逆傅里叶变换的性质"></a>2D傅里叶变换和逆傅里叶变换的性质</h1><p>频域间隔和空间域间隔的关系和1D一样。</p>
+<h2 id="旋转和平移"><a href="#旋转和平移" class="headerlink" title="旋转和平移"></a>旋转和平移</h2><p>易证</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f(x,y)e^{j2\pi(u_0x/M+v_0y/N)} &\Leftrightarrow F(u-u_0, v-v_0) \\
+f(x-x_0,y-y0) &\Leftrightarrow F(u, v)e^{-j2\pi(u_0x/M+v_0y/N)}
+\end{aligned}</script><p>将$f(x,y)$转为极坐标表示$f(r, \theta)$，乘上$e^{-j2\pi(u_0x/M+v_0y/N)}$相当于旋转对应的角度$\theta_0$，$f(r,\theta+\theta_0)\Leftrightarrow F(\omega,\varphi+\theta_0)$。</p>
+<p>前面提到取采样区间$[0, T]$取出的实际是两个相邻半周期。现在要将频域图像右移半个周期，就能取出一个完整周期，由上述平移公式得$F(u-M/2) = f(x)e^{j\pi x} = f(x)(-1)^x$，同理二维需要在计算傅里叶变换前平移成$f(x, y)(-1)^{(x+y)}$</p>
+<h2 id="对称性质"><a href="#对称性质" class="headerlink" title="对称性质"></a>对称性质</h2><p>对于离散序列，对称是根据序列中心点来的，此时奇偶函数分别有以下对称性和反对称性</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+w_o(x, y) &= -w_o(M-x, N-y) \\
+w_e(x, y) &= w_o(M-x, N-y)
+\end{aligned}</script><h3 id="例-序列奇偶性测试"><a href="#例-序列奇偶性测试" class="headerlink" title="例 序列奇偶性测试"></a>例 序列奇偶性测试</h3><p>序列$f=\{2, 1, 1, 1\}$(下标从0开始)是偶序列，满足$f(x)=f(4-x)$，对于特殊下标0，因为$f(4)$看作不存在，所以$f(0)$<u>取值不会影响偶性判定结果</u>。而偶序列对于$$同样可以取任意值。</p>
+<p>序列$g=\{0,-1,0,1\}$是奇序列，要求奇序列$g(0),g(M/2)$必取0。</p>
+<h2 id="傅里叶频谱和相位角"><a href="#傅里叶频谱和相位角" class="headerlink" title="傅里叶频谱和相位角"></a>傅里叶频谱和相位角</h2><p>2D傅里叶变换结果一般是复函数：</p>
+<script type="math/tex; mode=display">
+F(u,v) = R(u,v) + jI(u,v)=|F(u,v)|e^{j\phi(u,v)}</script><p>强度，亦称傅里叶频谱<em>(or frequency)spectrum</em>：</p>
+<script type="math/tex; mode=display">
+|F(u,v)|=[R^2(u,v)+I^2(u,v)]^{1/2}</script><p>相位角/相位频谱<em>phase angle/phase spectrum</em>：</p>
+<script type="math/tex; mode=display">
+\phi(u,v)=\arctan(\frac{I(u,v)}{R(u,v)})</script><p>最后，<em>power spectrum</em>：</p>
+<script type="math/tex; mode=display">
+P(u,v)=|F(u,v)|^2=R^2(u,v)+I^2(u,v)</script><p>易证实值函数的傅里叶变换满足$|F(u,v)|=|F(-u,-v)|$，相位角是关于原点的奇函数$\phi(u,v)=-\phi(-u,-v)$。直接求零点的傅里叶变换可以得到$F(0, 0) = \sum^{M-1}_{x=0}\sum^{N-1}_{y=0}f(x,y)=MN\tilde{f}$，$\tilde{f}$是所有$f(x,y)$的均值。因为$MN$是相对较大的，所以一般$|F(0, 0)|$就是频谱中亮度最大的成分。$F(0,0)$是又叫变换的<em>dc component</em>（”dc” signifies direct current，current of zero frequency）。</p>
+<p>频谱记录了某种频率在原图中的显著程度，包含了原图的亮度信息，相位包含了不同正弦曲线相对原点的偏移量，记录了形状信息。</p>
+<h2 id="2D离散卷积定理"><a href="#2D离散卷积定理" class="headerlink" title="2D离散卷积定理"></a>2D离散卷积定理</h2><p>2D离散卷积和乘积有以下关系：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+(f\ast h)(x,y) &\Leftrightarrow (F \cdot H)(u,v) \\
+(f\cdot h)(x,y) &\Leftrightarrow \frac{1}{MN}(F \ast H)(u,v)
+\end{aligned}</script><p>实际上，由于逆傅里叶变换结果会是周期函数，所以想通过卷积定理在频域计算乘积再逆傅里叶变换，等价于在空间域对两个周期化的原图进行卷积，发生wraparound error。</p>
+<p><img src="/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/C4_6.jpg"></p>
+<p>左列是直接对一维函数$f, h$进行卷积，右列是使用离散傅里叶变换和卷积定理得到的结果。</p>
+<p>这一错误可以通过zero padding来避免，将两原函数都垫到尺寸$P\geq A+B-1$，$A,B$分别是原函数尺寸，0可以垫到头也可以垫到尾，2D图像同理</p>
+<h1 id="频域滤波基础"><a href="#频域滤波基础" class="headerlink" title="频域滤波基础"></a>频域滤波基础</h1><p>因为$F(u,v)$每项都包括了$f(x,y)$所有值之和，所以一般很难直接将图像某部分和变换结果联系起来，但是由于频率就是亮度在空间上的变化率，所以和图像中的亮度变化模式相关。</p>
+<p>变换图像原点是和图像亮度均值成比例的，原点附近的低频段对应着图像中亮度变化缓慢的成分，如一张室内照，可能对应亮度过渡平滑的墙和地板，远离原点的高频段对应快速变化的部分，如边缘和其它亮度急剧变化的部分。</p>
+<p><img src="/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/C4_7.jpg"></p>
+<p>上图变换中较为显著的$\pm 45^\circ$成分对应着原图许多呈对角分布的边。</p>
+<h2 id="使用低通频域滤波平滑图像"><a href="#使用低通频域滤波平滑图像" class="headerlink" title="使用低通频域滤波平滑图像"></a>使用低通频域滤波平滑图像</h2><p>下面介绍三种低通滤波器：<em>ideal, Butterworth, Gaussian</em>。下面统一输入是pad过的图像，宽高$P \times Q$</p>
+<h3 id="理想低通滤波器"><a href="#理想低通滤波器" class="headerlink" title="理想低通滤波器"></a>理想低通滤波器</h3><p>简称ILPF。</p>
+<script type="math/tex; mode=display">
+H(u,v)=\left\{
+\begin{aligned}
+1 \quad&if \ D(u,v)\leq D_0\\
+0 \quad&if \ D(u,v) > D_0
+\end{aligned}
+\right.</script><p>$D(u,v)$是变换图像$u,v$点到中心的欧几里得距离$D(u,v)=[(u-P/2)^2+(v-Q/2)^2]^{1/2}$</p>
+<p>“理想”是因为这种滤波器没有过渡，直接截断某区间频率以外的值为0。</p>
+<p><img src="/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/C4_8.jpg"></p>
+<p>如图对$688\times 688$的图像进行频域滤波，截断频率选取以原点为圆心，半径分别为10，30，60，160，460。</p>
+<p>结果的”ringing”现象可以用卷积理论解释：</p>
+<p><img src="/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/C4_9.jpg"></p>
+<p>图二是理想滤波器图1的逆傅里叶变换结果，在频域和图1滤波等价于和图2卷积，对单位脉冲的卷积就相当于将卷积核复制到该脉冲位置，所以会产生ringing效果。</p>
+<h3 id="高斯低通滤波器"><a href="#高斯低通滤波器" class="headerlink" title="高斯低通滤波器"></a>高斯低通滤波器</h3><p><img src="/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/C4_10.jpg"></p>
+<p>理想低通滤波器是关于到图像中心距离的函数：</p>
+<script type="math/tex; mode=display">
+H(u,v) = e^{-D^2(u,v)/2\sigma^2}</script><p>一般将$\sigma$写成$D_0$，作为高斯低通滤波器的截断频率。这种滤波器没有”ringing”的结果，代价是对频率过滤更不可控</p>
+<h3 id="BUTTERWORTH低通滤波器"><a href="#BUTTERWORTH低通滤波器" class="headerlink" title="BUTTERWORTH低通滤波器"></a>BUTTERWORTH低通滤波器</h3><script type="math/tex; mode=display">
+H(u,v) = \frac{1}{1+[D(u,v)/D_0]^{2n}}</script><p><img src="/2022/01/28/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C4-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-1/C4_11.jpg"></p>
+<p>butterworth关于n的曲线如图3所示，n越大就越接近理想低通滤波器。</p>
+<p>低通滤波器的应用实例有OCR预处理，给化妆品广告人像磨皮等</p>
+<h2 id="高通滤波器"><a href="#高通滤波器" class="headerlink" title="高通滤波器"></a>高通滤波器</h2><p>可以通过减去前面的低通滤波器直接得到对应的高通滤波器：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+IHPF(u,v)&=\left\{
+\begin{aligned}
+0 \quad&if \ D(u,v)\leq D_0\\
+1 \quad&if \ D(u,v) > D_0
+\end{aligned}
+\right.\\
+GHPF(u,v)&=1-e^{-D^2(u,v)/2D_0^2} \\
+BHPF(u,v)&=\frac{1}{1+[D_0/D(u,v)]^{2n}}
+\end{aligned}</script><h3 id="频域拉普拉斯变换"><a href="#频域拉普拉斯变换" class="headerlink" title="频域拉普拉斯变换"></a>频域拉普拉斯变换</h3><p>其频域函数为：</p>
+<script type="math/tex; mode=display">
+H(u,v)=-4\pi^2(u^2+v^2)=-4\pi D^2</script><p>而图像的拉普拉斯变换可以写作：</p>
+<script type="math/tex; mode=display">
+\nabla^2f(u,v)=S^{-1}[H(u,v)F(u,v)]</script><p>之前提到的锐化增强写作：</p>
+<script type="math/tex; mode=display">
+g(x,y) = f(x, y) - \nabla^2f(x,y)=S^{-1}\{[1+4\pi^2D^2(u,v)]F(u,v)\}</script><p>频域的拉普拉斯滤波比空间域卷积拉普拉斯核效果好，因为是对整个图像的像素点做的滤波。</p>
+<h1 id="快速傅里叶变换"><a href="#快速傅里叶变换" class="headerlink" title="快速傅里叶变换"></a>快速傅里叶变换</h1><p>傅里叶变换是可分的：</p>
+<script type="math/tex; mode=display">
+F(u, v) = \sum^{M-1}_{x=0}e^{-j2\pi ux/M}\sum^{N-1}_{y=0}f(x,y)e^{-j2\pi vy/N}</script><p>所以可以将内层求和看作对每一行的变换，所以原来的二维变量运算就化简成两次相继的一维变换。</p>
+<p>下面在一元变量的基础上介绍一种FFT算法推导，它要求$M$是2的幂次：</p>
+<p>设$W_M = e^{-j2\pi/M}, M=2^p$：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+F(u) &= \sum^{M-1}_{x=0}f(x)W^{ux}_{M} \\
+&=\sum^{K-1}_{x=0}f(2x)W^{u(2x)}_{2K}+\sum^{K-1}_{x=0}f(2x+1)W^{u(2x+1)}_{2K}
+\end{aligned}</script><p>易得$W^{2ux}_{2K}=W^{ux}_{K}$，设$F_{even}(u)=\sum^{K-1}_{x=0}f(2x)W^{ux}_K, F_{odd}(u)=\sum^{K-1}_{x=0}f92x+1)W^{ux}_K$，上式可以写成：</p>
+<script type="math/tex; mode=display">
+F(u) = F_{even}(u)+F_{odd}(u)W^u_{2K}</script><p>又因为$W^{u+K}_M = e^{-j2\pi (u+K)/2K}=e^{-j2\pi u /K} = W^u_K$，$W^{u+K}_{2K} =-W^u_{2K}$，那么：</p>
+<script type="math/tex; mode=display">
+F(u+K)=F_{even}(u)-F_{odd}(u)W^u_{2K}</script><p>也就是说求解一维fft可以分解成2部分：先求解出前半部分，然后带入上式求后半部分</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/01/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86C3-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1018,7 +1321,7 @@ x_b \\ y_b \\ z_b
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1058,7 +1361,7 @@ x_b \\ y_b \\ z_b
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
